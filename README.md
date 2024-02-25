@@ -1,0 +1,1 @@
+# eco-wise-flutter-app-frontend
