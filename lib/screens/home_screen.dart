@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,8 +28,44 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
-        child: Text('Home'),
+      body: Stack(
+        children: [
+          Image.asset(
+            'assets/images/home_arc.png',
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+          SafeArea(
+            child: Column(
+              children: [
+                const SizedBox(height: 8),
+                ListTile(
+                  leading: Image.asset(
+                    'assets/images/home_dp.png',
+                    width: 75,
+                    height: 75,
+                    fit: BoxFit.cover,
+                  ),
+                  title: const Text(
+                    'Hello',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: const Text(
+                    'Oshada Nanayakkara',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  trailing: Image.asset('assets/images/home_bell.png'),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

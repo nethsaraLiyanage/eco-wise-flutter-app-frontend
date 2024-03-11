@@ -16,6 +16,7 @@ class TopDoublePainter extends CustomPainter {
     Path bottomCircle = Path();
     bottomCircle.moveTo(0, height * 0.37);
 
+    // Bottom circle---------------------------------------------------
     bottomCircle.quadraticBezierTo(
         width * 0.3, height * 0.4, width * 0.5, height * 0.32);
 
@@ -25,6 +26,7 @@ class TopDoublePainter extends CustomPainter {
 
     canvas.drawPath(bottomCircle, paint);
     canvas.drawPath(bottomCircle, borderPaint);
+    // ----------------------------------------------------------------
 
     // Top circle------------------------------------------------------
     Path topCircle = Path();
