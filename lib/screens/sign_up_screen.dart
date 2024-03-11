@@ -1,6 +1,8 @@
+import 'package:eco_wise/screens/welcome_screen.dart';
+import 'package:flutter/material.dart';
+
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
 import 'package:eco_wise/widgets/custom_text_field.dart';
-import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -14,10 +16,19 @@ class SignUpScreen extends StatelessWidget {
   final _confirmPassword = TextEditingController();
 
   //ToDo: Input validation and sign in functionality
-  void _signIn(){
-    if(_fullName.text.isEmpty){
+  void _signIn(BuildContext context) {
+    if (_fullName.text.isEmpty) {
       //Input validation
     }
+    if (_address.text.isEmpty) {
+      //Input validation
+    }
+
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (ctx) => const WelcomeScreen(),
+        ),
+        (route) => false);
   }
 
   @override
@@ -88,7 +99,9 @@ class SignUpScreen extends StatelessWidget {
                   height: 47,
                 ),
                 CustomElevatedButton(
-                    onButtonPressed: _signIn,
+                    onButtonPressed: () {
+                      _signIn(context);
+                    },
                     height: 54,
                     width: 275,
                     childWidget: Text(

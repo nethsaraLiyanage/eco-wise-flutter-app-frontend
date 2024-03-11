@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
 import 'package:eco_wise/widgets/titled_text_field.dart';
+import 'package:eco_wise/screens/welcome_screen.dart';
 
 class LogInScreen extends StatelessWidget {
   final _usernameController = TextEditingController();
@@ -11,13 +12,21 @@ class LogInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //ToDo: Username, Password authentication
-    void _onSignUp() {
+    void onSignUp() {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (ctx) => SignUpScreen(),
         ),
       );
+    }
+
+    void onLogIn(BuildContext context) {
+      //ToDo: Username, Password authentication
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (ctx) => const WelcomeScreen(),
+          ),
+          (route) => false);
     }
 
     return Scaffold(
@@ -68,7 +77,9 @@ class LogInScreen extends StatelessWidget {
               ),
               const SizedBox(height: 46),
               CustomElevatedButton(
-                onButtonPressed: () {},
+                onButtonPressed: () {
+                  onLogIn(context);
+                },
                 height: 54,
                 width: 275,
                 childWidget: Text(
@@ -117,7 +128,7 @@ class LogInScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   TextButton(
-                    onPressed: _onSignUp,
+                    onPressed: onSignUp,
                     child: Text(
                       'Sign Up',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
