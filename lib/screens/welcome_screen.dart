@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
+import 'package:eco_wise/screens/home_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    void onGetStarted() {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (ctx) => const HomeScreen(),
+          ),
+          (route) => false);
+    }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -21,7 +30,7 @@ class WelcomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 70),
+                const SizedBox(height: 110),
                 Text(
                   'Welcome!',
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -47,9 +56,9 @@ class WelcomeScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 90),
                 CustomElevatedButton(
-                  onButtonPressed: () {},
+                  onButtonPressed: onGetStarted,
                   height: 59,
                   width: 275,
                   childWidget: Text(
