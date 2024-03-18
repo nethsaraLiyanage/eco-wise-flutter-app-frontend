@@ -1,5 +1,6 @@
-import 'dart:math';
-
+import 'package:eco_wise/models/tech_models.dart';
+import 'package:eco_wise/widgets/custom_appbar.dart';
+import 'package:eco_wise/widgets/progress_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,6 +28,13 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    var items = [
+      Tech(name: 'Mobile', icon: Image.asset('assets/images/phone.png')),
+      Tech(name: 'Laptop', icon: Image.asset('assets/images/laptop.png')),
+      Tech(name: 'TV', icon: Image.asset('assets/images/tv.png')),
+      Tech(name: 'Embedded', icon: Image.asset('assets/images/embedded.png')),
+    ];
     return Scaffold(
       body: Stack(
         children: [
@@ -37,30 +45,58 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           SafeArea(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 8),
-                ListTile(
-                  leading: Image.asset(
-                    'assets/images/home_dp.png',
-                    width: 75,
-                    height: 75,
-                    fit: BoxFit.cover,
-                  ),
-                  title: const Text(
-                    'Hello',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                const CustomAppBar(),
+                const SizedBox(height: 35),
+                const ProgressBar(),
+                SizedBox(height: size.height * 0.09),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(
+                        'Categories',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
                     ),
-                  ),
-                  subtitle: const Text(
-                    'Oshada Nanayakkara',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            'See all',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey,
+                                    ),
+                          )),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 21),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ...items.map(
+                      (e) => SizedBox(
+                        width: e.icon.width,
+                        child: Column(
+                          children: [
+                            e.icon,
+                            Text(e.name),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                  trailing: Image.asset('assets/images/home_bell.png'),
+                  ],
                 )
               ],
             ),
