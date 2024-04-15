@@ -79,6 +79,9 @@ flutter:
     - assets/images/scan_icon.png
     - assets/images/pickup_icon.png
     - assets/images/profile_icon.png
+    - assets/images/bronze.png
+    - assets/images/star.png
+    - assets/images/items.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

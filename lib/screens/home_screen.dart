@@ -1,3 +1,4 @@
+import 'package:eco_wise/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -54,15 +55,22 @@ class _HomeScreenState extends State<HomeScreen>
         'icon': 'assets/images/scan_icon.png',
         'title': 'Scan',
       },
-      {
-        'icon': 'assets/images/pickup_icon.png',
-        'title': 'Pickup',
-      },
+      {'icon': 'assets/images/pickup_icon.png', 'title': 'Pickup'},
       {
         'icon': 'assets/images/profile_icon.png',
         'title': 'Profile',
       },
     ];
+
+    void onNavigationBarTap(String title) {
+      if (title == 'Profile') {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (ctx) => ProfileScreen(),
+          ),
+        );
+      }
+    }
 
     return Scaffold(
       body: Stack(
@@ -169,13 +177,18 @@ class _HomeScreenState extends State<HomeScreen>
                     children: [
                       ...navigationItems
                           .map(
-                            (e) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(e['icon']!),
-                                Text(e['title']!),
-                              ],
+                            (e) => InkWell(
+                              onTap: () {
+                                onNavigationBarTap(e['title']!);
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(e['icon']!),
+                                  Text(e['title']!),
+                                ],
+                              ),
                             ),
                           )
                           .toList()
