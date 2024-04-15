@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
+
+import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:eco_wise/models/tech_models.dart';
 import 'package:eco_wise/widgets/custom_appbar.dart';
 import 'package:eco_wise/widgets/progress_bar.dart';
-import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,6 +38,32 @@ class _HomeScreenState extends State<HomeScreen>
       Tech(name: 'TV', icon: Image.asset('assets/images/tv.png')),
       Tech(name: 'Embedded', icon: Image.asset('assets/images/embedded.png')),
     ];
+
+    var detailItems = [
+      'assets/images/home_news.png',
+      'assets/images/home_news.png',
+      'assets/images/home_news.png',
+    ];
+
+    final navigationItems = [
+      {
+        'icon': 'assets/images/home_icon.png',
+        'title': 'Home',
+      },
+      {
+        'icon': 'assets/images/scan_icon.png',
+        'title': 'Scan',
+      },
+      {
+        'icon': 'assets/images/pickup_icon.png',
+        'title': 'Pickup',
+      },
+      {
+        'icon': 'assets/images/profile_icon.png',
+        'title': 'Profile',
+      },
+    ];
+
     return Scaffold(
       body: Stack(
         children: [
@@ -97,6 +126,61 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(height: 25),
+                CarouselSlider(
+                  items: detailItems
+                      .map(
+                        (e) => Builder(builder: (BuildContext context) {
+                          return Container(
+                            width: size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Image.asset(
+                              e,
+                              fit: BoxFit.fitHeight,
+                            ),
+                          );
+                        }),
+                      )
+                      .toList(),
+                  options: CarouselOptions(
+                    height: size.height * 0.28,
+                    enableInfiniteScroll: false,
+                    initialPage: 0,
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 25),
+                  width: size.width * 0.95,
+                  height: size.height * 0.089,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 248, 247, 247),
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: const [
+                      BoxShadow(blurRadius: 3, color: Colors.grey)
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ...navigationItems
+                          .map(
+                            (e) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(e['icon']!),
+                                Text(e['title']!),
+                              ],
+                            ),
+                          )
+                          .toList()
+                    ],
+                  ),
                 )
               ],
             ),

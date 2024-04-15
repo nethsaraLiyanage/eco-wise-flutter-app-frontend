@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^6.1.0
   flutter_riverpod: ^2.4.10
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,11 @@ flutter:
     - assets/images/laptop.png
     - assets/images/tv.png
     - assets/images/embedded.png
+    - assets/images/home_news.png
+    - assets/images/home_icon.png
+    - assets/images/scan_icon.png
+    - assets/images/pickup_icon.png
+    - assets/images/profile_icon.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
