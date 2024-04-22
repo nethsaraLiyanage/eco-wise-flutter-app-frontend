@@ -1,5 +1,3 @@
-import 'package:eco_wise/screens/pickup_screen.dart';
-import 'package:eco_wise/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -7,6 +5,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eco_wise/models/tech_models.dart';
 import 'package:eco_wise/widgets/custom_appbar.dart';
 import 'package:eco_wise/widgets/progress_bar.dart';
+import 'package:eco_wise/screens/pickup_screen.dart';
+import 'package:eco_wise/screens/profile_screen.dart';
+import 'package:eco_wise/screens/scan_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -67,14 +68,21 @@ class _HomeScreenState extends State<HomeScreen>
       if (title == 'Profile') {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (ctx) => ProfileScreen(),
+            builder: (ctx) => const ProfileScreen(),
           ),
         );
       }
       if (title == 'Pickup') {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (ctx) => PickupScreen(),
+            builder: (ctx) => const PickupScreen(),
+          ),
+        );
+      }
+      if (title == 'Scan') {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (ctx) => const ScanScreen(),
           ),
         );
       }

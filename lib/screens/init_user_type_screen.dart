@@ -8,7 +8,7 @@ class InitUserTypeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _onRecycler() {
+    void onRecycler() {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (ctx) => const InitMobileNumberScreen(),
@@ -33,7 +33,7 @@ class InitUserTypeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               CustomElevatedButton(
-                onButtonPressed: _onRecycler,
+                onButtonPressed: onRecycler,
                 height: 56,
                 width: 141,
                 childWidget: Text(

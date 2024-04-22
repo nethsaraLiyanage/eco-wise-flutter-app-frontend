@@ -1,7 +1,7 @@
-import 'package:eco_wise/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:eco_wise/models/recycle_location_model.dart';
+import 'package:eco_wise/widgets/custom_elevated_button.dart';
 
 class FavouriteRecycles extends StatefulWidget {
   const FavouriteRecycles({

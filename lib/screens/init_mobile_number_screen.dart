@@ -11,7 +11,7 @@ class InitMobileNumberScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController numberController = TextEditingController();
 
-    void _sendOTP(TextEditingController numberController) {
+    void sendOTP(TextEditingController numberController) {
       if (numberController.text.length > 9 ||
           numberController.text.length < 9 ||
           numberController.text.isEmpty) {
@@ -65,7 +65,7 @@ class InitMobileNumberScreen extends StatelessWidget {
               const SizedBox(height: 90),
               CustomElevatedButton(
                 onButtonPressed: () {
-                  _sendOTP(numberController);
+                  sendOTP(numberController);
                 },
                 height: 54,
                 width: 275,
