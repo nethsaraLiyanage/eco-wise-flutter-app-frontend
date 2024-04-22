@@ -82,6 +82,8 @@ flutter:
     - assets/images/bronze.png
     - assets/images/star.png
     - assets/images/items.png
+    - assets/images/pick_arc_1.png
+    - assets/images/pick_arc_2.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

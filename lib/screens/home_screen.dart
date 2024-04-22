@@ -1,3 +1,4 @@
+import 'package:eco_wise/screens/pickup_screen.dart';
 import 'package:eco_wise/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -67,6 +68,13 @@ class _HomeScreenState extends State<HomeScreen>
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (ctx) => ProfileScreen(),
+          ),
+        );
+      }
+      if (title == 'Pickup') {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (ctx) => PickupScreen(),
           ),
         );
       }
