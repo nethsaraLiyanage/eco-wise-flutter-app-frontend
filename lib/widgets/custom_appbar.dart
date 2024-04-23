@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({super.key});
+  const CustomAppBar({
+    super.key,
+    required this.onTap,
+  });
+
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,10 @@ class CustomAppBar extends StatelessWidget {
           fontWeight: FontWeight.w700,
         ),
       ),
-      trailing: Image.asset('assets/images/home_bell.png'),
+      trailing: InkWell(
+        child: Image.asset('assets/images/home_bell.png'),
+        onTap: onTap,
+      ),
     );
   }
 }

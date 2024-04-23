@@ -1,3 +1,4 @@
+import 'package:eco_wise/screens/notifications_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -88,6 +89,14 @@ class _HomeScreenState extends State<HomeScreen>
       }
     }
 
+    void onNotifications() {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => NotificationsScreen(),
+        ),
+      );
+    }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -101,7 +110,9 @@ class _HomeScreenState extends State<HomeScreen>
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 8),
-                const CustomAppBar(),
+                CustomAppBar(
+                  onTap: onNotifications,
+                ),
                 const SizedBox(height: 35),
                 const ProgressBar(),
                 SizedBox(height: size.height * 0.09),
