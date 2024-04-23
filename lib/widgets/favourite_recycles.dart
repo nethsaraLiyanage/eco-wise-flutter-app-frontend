@@ -19,7 +19,6 @@ class _NewRecycleState extends State<FavouriteRecycles> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (cyx, constraints) {
-      final width = constraints.maxWidth;
       return SizedBox(
         // height: double.infinity,
         child: SingleChildScrollView(
