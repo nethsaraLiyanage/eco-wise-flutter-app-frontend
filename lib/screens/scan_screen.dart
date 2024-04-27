@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:eco_wise/screens/recycle_map_screen.dart';
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,14 @@ class ScanScreen extends StatefulWidget {
 
 class _ScanScreenState extends State<ScanScreen> {
   var isItemScanned = false;
+
+  void _onRecycle() {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (ctx) => RecycleMapScreen(),
+        ),
+        (route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +127,7 @@ class _ScanScreenState extends State<ScanScreen> {
                     ),
                     const SizedBox(height: 20),
                     CustomElevatedButton(
-                      onButtonPressed: () {},
+                      onButtonPressed: _onRecycle,
                       height: 46,
                       width: 109,
                       childWidget: Text(

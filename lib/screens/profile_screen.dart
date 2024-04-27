@@ -1,3 +1,5 @@
+import 'package:eco_wise/screens/results_screen.dart';
+import 'package:eco_wise/screens/total_items_screen.dart';
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
@@ -91,79 +93,88 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            Container(
-              height: size.height * 0.0938,
-              width: size.width * 0.648,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 248, 248, 248),
-                boxShadow: const [],
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset('assets/images/star.png'),
-                            Text(
-                              '1200',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          'Total Points',
-                          style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    fontSize: 16,
-                                  ),
-                        ),
-                      ],
-                    ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => TotalItemsScreen(),
                   ),
-                  SizedBox(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Image.asset('assets/images/items.png'),
-                            Text(
-                              '500',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          'Total Items',
-                          style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    fontSize: 16,
-                                  ),
-                        ),
-                      ],
+                );
+              },
+              child: Container(
+                height: size.height * 0.0938,
+                width: size.width * 0.648,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 248, 248, 248),
+                  boxShadow: const [],
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              Image.asset('assets/images/star.png'),
+                              Text(
+                                '1200',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            'Total Points',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontSize: 16,
+                                    ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Image.asset('assets/images/items.png'),
+                              Text(
+                                '500',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            'Total Items',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontSize: 16,
+                                    ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(
@@ -187,7 +198,13 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   ...buttons
                       .map((e) => InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => ResultsScreen(),
+                                ),
+                              );
+                            },
                             child: Column(
                               children: [
                                 Padding(

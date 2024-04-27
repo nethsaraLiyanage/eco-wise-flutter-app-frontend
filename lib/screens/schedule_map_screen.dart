@@ -1,3 +1,4 @@
+import 'package:eco_wise/screens/error_screen.dart';
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,14 @@ class ScheduleMapScreen extends StatefulWidget {
 }
 
 class _ScheduleMapScreenState extends State<ScheduleMapScreen> {
+  void _onShcedule() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => ErrorScreen(),
+      ),
+    );
+  }
+
   void _onBack() {}
   @override
   Widget build(BuildContext context) {
@@ -129,7 +138,7 @@ class _ScheduleMapScreenState extends State<ScheduleMapScreen> {
                     ),
                   ),
                   CustomElevatedButton(
-                    onButtonPressed: () {},
+                    onButtonPressed: _onShcedule,
                     height: 48,
                     width: 275,
                     childWidget: Text(
