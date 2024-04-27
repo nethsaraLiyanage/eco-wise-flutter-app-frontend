@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:eco_wise/models/recycle_location_model.dart';
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
 import 'package:eco_wise/widgets/favourite_recycles.dart';
+import 'package:eco_wise/screens/recycle_map_screen.dart';
 
 class PickupScreen extends StatefulWidget {
   const PickupScreen({super.key});
@@ -46,6 +47,14 @@ class _PickupScreenState extends State<PickupScreen> {
         recycleLocations: recycleLocations,
       ),
     );
+  }
+
+  void _onRecycle() {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (ctx) => RecycleMapScreen(),
+        ),
+        (route) => false);
   }
 
   @override
@@ -182,7 +191,7 @@ class _PickupScreenState extends State<PickupScreen> {
               height: size.height * 0.081,
             ),
             CustomElevatedButton(
-              onButtonPressed: () {},
+              onButtonPressed: _onRecycle,
               height: 50,
               width: 178,
               childWidget: Text(
