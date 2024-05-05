@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'package:eco_wise/screens/error_screen.dart';
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
-import 'package:flutter/material.dart';
+import 'package:eco_wise/screens/recycle_map_screen.dart';
 
 class ScheduleMapScreen extends StatefulWidget {
   const ScheduleMapScreen({super.key});
@@ -11,6 +13,7 @@ class ScheduleMapScreen extends StatefulWidget {
 
 class _ScheduleMapScreenState extends State<ScheduleMapScreen> {
   void _onShcedule() {
+    // post shedule data in the DeviceItem to backend
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => ErrorScreen(),
@@ -18,7 +21,14 @@ class _ScheduleMapScreenState extends State<ScheduleMapScreen> {
     );
   }
 
-  void _onBack() {}
+  void _onBack() {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (ctx) => RecycleMapScreen(),
+        ),
+        (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

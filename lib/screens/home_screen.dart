@@ -1,4 +1,3 @@
-import 'package:eco_wise/screens/notifications_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -9,6 +8,7 @@ import 'package:eco_wise/widgets/progress_bar.dart';
 import 'package:eco_wise/screens/pickup_screen.dart';
 import 'package:eco_wise/screens/profile_screen.dart';
 import 'package:eco_wise/screens/scan_screen.dart';
+import 'package:eco_wise/screens/notifications_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -90,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen>
     }
 
     void onNotifications() {
+      // getNotifications from the backend
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (ctx) => NotificationsScreen(),
@@ -100,10 +101,14 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       body: Stack(
         children: [
-          Image.asset(
-            'assets/images/home_arc.png',
-            width: double.infinity,
-            fit: BoxFit.cover,
+          SizedBox(
+            height: size.height * 0.315,
+            width: size.width,
+            child: Image.asset(
+              'assets/images/home_arc.png',
+              width: double.infinity,
+              fit: BoxFit.fill,
+            ),
           ),
           SafeArea(
             child: Column(
@@ -113,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen>
                 CustomAppBar(
                   onTap: onNotifications,
                 ),
-                const SizedBox(height: 35),
+                SizedBox(height: size.height * 0.041),
                 const ProgressBar(),
                 SizedBox(height: size.height * 0.09),
                 Row(
@@ -145,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen>
                     )
                   ],
                 ),
-                const SizedBox(height: 21),
+                SizedBox(height: size.height * 0.0246),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -169,6 +174,7 @@ class _HomeScreenState extends State<HomeScreen>
                         (e) => Builder(builder: (BuildContext context) {
                           return Container(
                             width: size.width,
+                            height: size.height * 0.255,
                             margin: const EdgeInsets.symmetric(horizontal: 5),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(6),
@@ -188,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 25),
+                  margin: EdgeInsets.only(top: size.height * 0.029),
                   width: size.width * 0.95,
                   height: size.height * 0.089,
                   decoration: BoxDecoration(

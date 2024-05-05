@@ -49,12 +49,22 @@ class _PickupScreenState extends State<PickupScreen> {
     );
   }
 
-  void _onRecycle() {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (ctx) => RecycleMapScreen(),
+  void _onRecycle(BuildContext context) {
+    if (dropDownValue != 'Select Category' &&
+        quantityController.text.isNotEmpty) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (ctx) => RecycleMapScreen(),
+          ),
+          (route) => false);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a category and enter the quantity'),
+          duration: Duration(seconds: 3),
         ),
-        (route) => false);
+      );
+    }
   }
 
   @override
@@ -191,7 +201,9 @@ class _PickupScreenState extends State<PickupScreen> {
               height: size.height * 0.081,
             ),
             CustomElevatedButton(
-              onButtonPressed: _onRecycle,
+              onButtonPressed: () {
+                _onRecycle(context);
+              },
               height: 50,
               width: 178,
               childWidget: Text(

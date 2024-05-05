@@ -8,6 +8,7 @@ class ResultsScreen extends StatefulWidget {
 }
 
 class _ResultsScreenState extends State<ResultsScreen> {
+  // get all users from backend
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -59,9 +60,14 @@ class _ResultsScreenState extends State<ResultsScreen> {
                     width: size.width * 0.895,
                     height: size.height * 0.062,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: const Color.fromARGB(255, 237, 237, 237)),
-                  )
+                      borderRadius: BorderRadius.circular(20),
+                      color: const Color.fromARGB(255, 237, 237, 237),
+                    ),
+                    child: Row(
+                      children: [],
+                    ),
+                  ),
+                  
                 ],
               ),
             )

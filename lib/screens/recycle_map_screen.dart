@@ -1,6 +1,10 @@
+import 'package:eco_wise/screens/navigate_map_screen.dart';
+import 'package:flutter/material.dart';
+
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:eco_wise/screens/home_screen.dart';
 import 'package:eco_wise/screens/schedule_screen.dart';
-import 'package:flutter/material.dart';
 
 class RecycleMapScreen extends StatefulWidget {
   const RecycleMapScreen({super.key});
@@ -13,6 +17,8 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
   final searchWord = TextEditingController();
   final yourLocation = TextEditingController();
   final dropLocation = TextEditingController();
+  static const sliitGate = LatLng(6.9142761, 79.9722236);
+  static const companyLocation = LatLng(6.8831607, 79.8685644);
 
   void _onBack() {
     Navigator.of(context).pushAndRemoveUntil(
@@ -30,6 +36,25 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
     );
   }
 
+  void _onEditingComplete() {
+    FocusManager.instance.primaryFocus?.unfocus();
+    if (yourLocation.text.isEmpty || dropLocation.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please Enter Your Location and Collector'),
+          duration: Duration(seconds: 5),
+        ),
+      );
+    } else {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (ctx) => const NavigateMapScreen(),
+        ),
+        (route) => false,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -45,6 +70,28 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
       ),
       body: Stack(
         children: [
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: GoogleMap(
+              initialCameraPosition: const CameraPosition(
+                target: sliitGate,
+                zoom: 12,
+              ),
+              markers: {
+                const Marker(
+                  markerId: MarkerId('sourceLocation'),
+                  icon: BitmapDescriptor.defaultMarker,
+                  position: sliitGate,
+                ),
+                const Marker(
+                  markerId: MarkerId('companyLocation'),
+                  icon: BitmapDescriptor.defaultMarker,
+                  position: companyLocation,
+                )
+              },
+            ),
+          ),
           Container(
             height: double.infinity,
             alignment: Alignment.bottomCenter,
@@ -212,6 +259,7 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
                                 decoration: const InputDecoration(
                                   labelText: "Select Your Collector",
                                 ),
+                                onEditingComplete: _onEditingComplete,
                               ),
                             )
                           ],

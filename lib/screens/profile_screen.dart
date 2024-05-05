@@ -1,10 +1,21 @@
+import 'package:flutter/material.dart';
+
 import 'package:eco_wise/screens/results_screen.dart';
 import 'package:eco_wise/screens/total_items_screen.dart';
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
-import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
+
+  void _onTap(String tappedOn, BuildContext context) {
+    if (tappedOn == 'Leader Board') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => ResultsScreen(),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,11 +210,7 @@ class ProfileScreen extends StatelessWidget {
                   ...buttons
                       .map((e) => InkWell(
                             onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (ctx) => ResultsScreen(),
-                                ),
-                              );
+                              _onTap(e, context);
                             },
                             child: Column(
                               children: [

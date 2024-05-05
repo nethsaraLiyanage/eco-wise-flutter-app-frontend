@@ -17,6 +17,8 @@ class SignUpScreen extends StatelessWidget {
 
   //ToDo: Input validation and sign in functionality
   void _signIn(BuildContext context) {
+    // confirm password done within the app
+    // send all details in one json
     if (_fullName.text.isEmpty) {
       //Input validation
     }

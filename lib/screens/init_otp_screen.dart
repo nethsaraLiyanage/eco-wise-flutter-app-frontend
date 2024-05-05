@@ -12,6 +12,14 @@ class InitOTPScreen extends StatelessWidget {
 
   InitOTPScreen({super.key});
 
+  void _onTryAgain(){
+    // send same as previuos screen
+  }
+
+  void _onNext(){
+    // send user typed number
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +103,7 @@ class InitOTPScreen extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         alignment: Alignment.topLeft,
                       ),
-                      onPressed: () {},
+                      onPressed: _onTryAgain,
                       child: Text(
                         'Try Again',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(

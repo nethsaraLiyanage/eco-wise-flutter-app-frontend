@@ -21,6 +21,7 @@ class InitMobileNumberScreen extends StatelessWidget {
           ),
         );
       } else {
+        // phoneNumber Post request
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('OTP Sent'),

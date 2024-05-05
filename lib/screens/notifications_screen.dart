@@ -40,6 +40,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     ),
   ];
 
+  void _markAsRead(){
+    // post to back end to update isRead status
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -74,7 +78,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   height: 20,
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed:  _markAsRead,
                   child: Text(
                     'Mark as Read',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
