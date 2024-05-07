@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:location/location.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:eco_wise/screens/error_screen.dart';
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
 import 'package:eco_wise/screens/recycle_map_screen.dart';
@@ -12,6 +15,12 @@ class ScheduleMapScreen extends StatefulWidget {
 }
 
 class _ScheduleMapScreenState extends State<ScheduleMapScreen> {
+  final locationController = Location();
+  static const sliitGate = LatLng(6.9142761, 79.9722236);
+  static const companyLocation = LatLng(6.8831607, 79.8685644);
+
+  LatLng? currentPosition;
+
   void _onShcedule() {
     // post shedule data in the DeviceItem to backend
     Navigator.of(context).push(
@@ -29,6 +38,40 @@ class _ScheduleMapScreenState extends State<ScheduleMapScreen> {
         (route) => false);
   }
 
+  Future<void> fetchLocationUpdates() async {
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+
+    serviceEnabled = await locationController.serviceEnabled();
+
+    if (serviceEnabled) {
+      serviceEnabled = await locationController.requestService();
+    } else {
+      return;
+    }
+
+    permissionGranted = await locationController.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await locationController.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    locationController.onLocationChanged.listen((currentLocation) {
+      if (currentLocation.latitude != null &&
+          currentLocation.longitude != null) {
+        if (!mounted) return;
+        setState(() {
+          currentPosition = LatLng(
+            currentLocation.latitude!,
+            currentLocation.longitude!,
+          );
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -43,6 +86,38 @@ class _ScheduleMapScreenState extends State<ScheduleMapScreen> {
       ),
       body: Stack(
         children: [
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            // child: currentPosition == null
+            //     ? const Center(
+            //         child: CircularProgressIndicator(),
+            //       )
+            //     :
+            child: GoogleMap(
+              initialCameraPosition: const CameraPosition(
+                target: sliitGate,
+                zoom: 12,
+              ),
+              markers: {
+                // Marker(
+                //   markerId: const MarkerId('currentLocation'),
+                //   icon: BitmapDescriptor.defaultMarker,
+                //   position: currentPosition!,
+                // ),
+                const Marker(
+                  markerId: MarkerId('sourceLocation'),
+                  icon: BitmapDescriptor.defaultMarker,
+                  position: sliitGate,
+                ),
+                const Marker(
+                  markerId: MarkerId('companyLocation'),
+                  icon: BitmapDescriptor.defaultMarker,
+                  position: companyLocation,
+                )
+              },
+            ),
+          ),
           Container(
             height: double.infinity,
             alignment: Alignment.bottomCenter,

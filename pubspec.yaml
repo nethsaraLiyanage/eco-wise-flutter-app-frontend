@@ -103,6 +103,7 @@ flutter:
     - assets/images/notification_background.png
     - assets/images/results_back.png
     - assets/images/error.png
+    - assets/images/success.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
