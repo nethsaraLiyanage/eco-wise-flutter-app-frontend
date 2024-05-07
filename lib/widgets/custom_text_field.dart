@@ -5,10 +5,12 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.customController,
     required this.labelText,
+    required this.isPw
   });
 
   final TextEditingController customController;
   final String labelText;
+  final bool isPw;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class CustomTextField extends StatelessWidget {
           border: InputBorder.none,
         ),
         controller: customController,
+        obscureText: isPw,
       ),
     );
   }

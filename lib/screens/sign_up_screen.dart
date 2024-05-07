@@ -1,8 +1,14 @@
-import 'package:eco_wise/screens/welcome_screen.dart';
+import 'dart:convert';
+
+import 'package:eco_wise/screens/error_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'package:http/http.dart' as http;
 
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
 import 'package:eco_wise/widgets/custom_text_field.dart';
+import 'package:eco_wise/screens/welcome_screen.dart';
+import 'package:eco_wise/config/config.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -15,22 +21,52 @@ class SignUpScreen extends StatelessWidget {
   final _password = TextEditingController();
   final _confirmPassword = TextEditingController();
 
-  //ToDo: Input validation and sign in functionality
-  void _signIn(BuildContext context) {
-    // confirm password done within the app
-    // send all details in one json
-    if (_fullName.text.isEmpty) {
-      //Input validation
-    }
-    if (_address.text.isEmpty) {
-      //Input validation
-    }
-
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (ctx) => const WelcomeScreen(),
+  void _signIn(BuildContext context) async {
+    if (_password.text != _confirmPassword.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Entered passwords does not match'),
         ),
-        (route) => false);
+      );
+    } else {
+      if (_email.text.isNotEmpty && _password.text.isNotEmpty) {
+        final response = await http.post(
+          Uri.parse('${apiUrl}users/register'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+          },
+          body: jsonEncode(<String, String>{
+            "username": _fullName.text,
+            "addess": _address.text,
+            "postalCode": _postalCode.text,
+            "email": _email.text,
+            "password": _password.text,
+          }),
+        );
+
+        print('Response Stat: ${response.statusCode}');
+
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (ctx) => const WelcomeScreen(),
+              ),
+              (route) => false);
+        } else {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) => ErrorScreen(),
+            ),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Email and Password are compulsory'),
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -45,7 +81,6 @@ class SignUpScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   margin: const EdgeInsets.all(5),
-                  //ToDo: Child might change to a different image if user entered a dp
                   child: Image.asset('assets/images/dp.png'),
                 ),
                 Padding(
@@ -64,36 +99,43 @@ class SignUpScreen extends StatelessWidget {
                     CustomTextField(
                       customController: _fullName,
                       labelText: 'Full Name',
+                      isPw: false,
                     ),
                     const SizedBox(height: 26),
                     CustomTextField(
                       customController: _address,
                       labelText: 'Address',
+                      isPw: false,
                     ),
                     const SizedBox(height: 26),
                     CustomTextField(
                       customController: _postalCode,
                       labelText: 'Postal Code',
+                      isPw: false,
                     ),
                     const SizedBox(height: 26),
                     CustomTextField(
                       customController: _province,
                       labelText: 'Province',
+                      isPw: false,
                     ),
                     const SizedBox(height: 26),
                     CustomTextField(
                       customController: _email,
                       labelText: 'Email',
+                      isPw: false,
                     ),
                     const SizedBox(height: 26),
                     CustomTextField(
                       customController: _password,
                       labelText: 'Password',
+                      isPw: true,
                     ),
                     const SizedBox(height: 26),
                     CustomTextField(
                       customController: _confirmPassword,
                       labelText: 'Confirm Password',
+                      isPw: true,
                     ),
                   ],
                 ),

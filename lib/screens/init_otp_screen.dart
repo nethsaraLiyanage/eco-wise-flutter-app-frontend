@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+
+import 'package:http/http.dart' as http;
 
 import 'package:eco_wise/screens/log_in_screen.dart';
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
@@ -9,15 +13,37 @@ class InitOTPScreen extends StatelessWidget {
   final num_2 = TextEditingController();
   final num_3 = TextEditingController();
   final num_4 = TextEditingController();
+  final String mobileNumber;
 
-  InitOTPScreen({super.key});
+  InitOTPScreen({
+    super.key,
+    required this.mobileNumber,
+  });
 
-  void _onTryAgain(){
+  void _onTryAgain() async {
     // send same as previuos screen
+    final response = await http.post(
+      Uri.parse(''),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+        <String, String>{'mobileNumber': mobileNumber},
+      ),
+    );
   }
 
-  void _onNext(){
+  void _onNext(BuildContext context) {
     // send user typed number
+    var otp = num_1.text + num_2.text + num_3.text + num_4.text;
+    if (otp.isNotEmpty) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (ctx) => LogInScreen(),
+        ),
+        (route) => false,
+      );
+    }
   }
 
   @override
@@ -119,18 +145,7 @@ class InitOTPScreen extends StatelessWidget {
                 ),
                 CustomElevatedButton(
                   onButtonPressed: () {
-                    var otp = num_1.text + num_2.text + num_3.text + num_4.text;
-                    //ToDo: Validate OTP
-                    print("The OTP is $otp");
-                    //ToDo: if(validated){Navigate}
-                    if (otp.isNotEmpty) {
-                      Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                          builder: (ctx) => LogInScreen(),
-                        ),
-                        (route) => false,
-                      );
-                    }
+                    _onNext(context);
                   },
                   height: 56,
                   width: 134,

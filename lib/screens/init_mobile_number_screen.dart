@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+
+import 'package:http/http.dart' as http;
 
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
 import 'package:eco_wise/widgets/mobile_number_field.dart';
@@ -9,9 +13,9 @@ class InitMobileNumberScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController numberController = TextEditingController();
+    final numberController = TextEditingController();
 
-    void sendOTP(TextEditingController numberController) {
+    void sendOTP(TextEditingController numberController) async {
       if (numberController.text.length > 9 ||
           numberController.text.length < 9 ||
           numberController.text.isEmpty) {
@@ -21,20 +25,46 @@ class InitMobileNumberScreen extends StatelessWidget {
           ),
         );
       } else {
-        // phoneNumber Post request
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('OTP Sent'),
-            duration: Duration(milliseconds: 500),
-          ),
-        );
-        //ToDo: Send OTP Code
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (ctx) => InitOTPScreen(),
-          ),
-        );
+        // final response = await http.post(
+        //   Uri.parse(''),
+        //   headers: <String, String>{
+        //     'Content-Type': 'application/json; charset=UTF-8',
+        //   },
+        //   body: jsonEncode(
+        //       <String, String>{'mobileNumber': numberController.text}),
+        // );
+
+        // if (response.statusCode == 400) {
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //     const SnackBar(
+        //       content: Text('Something went wrong! Please try again'),
+        //       duration: Duration(milliseconds: 500),
+        //     ),
+        //   );
+        // } else {
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //     const SnackBar(
+        //       content: Text('OTP Sent'),
+        //       duration: Duration(milliseconds: 500),
+        //     ),
+        //   );
+
+        //   Navigator.of(context).push(
+        //     MaterialPageRoute(
+        //       builder: (ctx) => InitOTPScreen(
+        //         mobileNumber: numberController.text,
+        //       ),
+        //     ),
+        //   );
+        // }
       }
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => InitOTPScreen(
+            mobileNumber: numberController.text,
+          ),
+        ),
+      );
     }
 
     return Scaffold(

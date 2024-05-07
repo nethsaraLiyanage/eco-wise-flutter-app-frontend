@@ -1,17 +1,27 @@
-import 'package:eco_wise/screens/sign_up_screen.dart';
+import 'dart:convert';
+
+import 'package:eco_wise/providers/user_id_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:http/http.dart' as http;
 
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
 import 'package:eco_wise/widgets/titled_text_field.dart';
 import 'package:eco_wise/screens/welcome_screen.dart';
+import 'package:eco_wise/screens/sign_up_screen.dart';
+import 'package:eco_wise/config/config.dart';
 
-class LogInScreen extends StatelessWidget {
+class LogInScreen extends ConsumerWidget {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   LogInScreen({super.key});
 
+  final storage = FlutterSecureStorage();
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     void onSignUp() {
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -20,13 +30,42 @@ class LogInScreen extends StatelessWidget {
       );
     }
 
-    void onLogIn(BuildContext context) {
-      //ToDo: Username, Password authentication
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (ctx) => const WelcomeScreen(),
+    void onLogIn(BuildContext context) async {
+      if (_usernameController.text.isNotEmpty &&
+          _passwordController.text.isNotEmpty) {
+        final response = await http.post(
+          Uri.parse('${apiUrl}users/login'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+          },
+          body: jsonEncode(<String, String>{
+            "email": _usernameController.text,
+            "password": _passwordController.text,
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          // print(jsonDecode(response.body)['user']['_id']);
+
+          final userId = jsonDecode(response.body)['user']['_id'];
+
+          ref.read(userIdProvider.notifier).setUserId(userId);
+
+          // await storage.write(key: "userId", value: userId);
+
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (ctx) => const WelcomeScreen(),
+              ),
+              (route) => false);
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please enter username and password'),
           ),
-          (route) => false);
+        );
+      }
     }
 
     return Scaffold(

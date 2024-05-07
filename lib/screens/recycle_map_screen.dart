@@ -1,10 +1,13 @@
-import 'package:eco_wise/screens/navigate_map_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:location/location.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:eco_wise/screens/home_screen.dart';
 import 'package:eco_wise/screens/schedule_screen.dart';
+import 'package:eco_wise/screens/navigate_map_screen.dart';
+import 'package:eco_wise/config/config.dart';
 
 class RecycleMapScreen extends StatefulWidget {
   const RecycleMapScreen({super.key});
@@ -17,8 +20,19 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
   final searchWord = TextEditingController();
   final yourLocation = TextEditingController();
   final dropLocation = TextEditingController();
+  final locationController = Location();
   static const sliitGate = LatLng(6.9142761, 79.9722236);
   static const companyLocation = LatLng(6.8831607, 79.8685644);
+
+  LatLng? currentPosition;
+  Map<PolylineId, Polyline> polylines = {};
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance
+        .addPostFrameCallback((timeStamp) async => fetchLocationUpdates());
+  }
 
   void _onBack() {
     Navigator.of(context).pushAndRemoveUntil(
@@ -55,6 +69,80 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
     }
   }
 
+  Future<void> fetchLocationUpdates() async {
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+
+    serviceEnabled = await locationController.serviceEnabled();
+
+    if (serviceEnabled) {
+      serviceEnabled = await locationController.requestService();
+    } else {
+      return;
+    }
+
+    permissionGranted = await locationController.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await locationController.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    locationController.onLocationChanged.listen((currentLocation) {
+      if (currentLocation.latitude != null &&
+          currentLocation.longitude != null) {
+        if (!mounted) return;
+        setState(() {
+          currentPosition = LatLng(
+            currentLocation.latitude!,
+            currentLocation.longitude!,
+          );
+          yourLocation.text =
+              '${currentPosition!.latitude.toString()}, ${currentPosition!.longitude.toString()}';
+        });
+      }
+    });
+  }
+
+  Future<List<LatLng>> fetchPolylinePoints() async {
+    final polylinePoints = PolylinePoints();
+
+    final result = await polylinePoints.getRouteBetweenCoordinates(
+      googleMapsApiKey,
+      PointLatLng(sliitGate.latitude, sliitGate.longitude),
+      PointLatLng(companyLocation.latitude, companyLocation.longitude),
+    );
+
+    if (result.points.isNotEmpty) {
+      return result.points.map((e) => LatLng(e.latitude, e.longitude)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<void> generatePolyLineFromPoints(
+      List<LatLng> polylineCoordinates) async {
+    const id = PolylineId('polyline');
+
+    final polyline = Polyline(
+      polylineId: id,
+      color: Colors.blueAccent,
+      points: polylineCoordinates,
+      width: 5,
+    );
+
+    setState(() {
+      polylines[id] = polyline;
+    });
+  }
+
+  Future<void> initializeMap() async {
+    await fetchLocationUpdates();
+    final coordinates = await fetchPolylinePoints();
+    generatePolyLineFromPoints(coordinates);
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -73,24 +161,34 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
           Container(
             width: double.infinity,
             height: double.infinity,
-            child: GoogleMap(
-              initialCameraPosition: const CameraPosition(
-                target: sliitGate,
-                zoom: 12,
-              ),
-              markers: {
-                const Marker(
-                  markerId: MarkerId('sourceLocation'),
-                  icon: BitmapDescriptor.defaultMarker,
-                  position: sliitGate,
-                ),
-                const Marker(
-                  markerId: MarkerId('companyLocation'),
-                  icon: BitmapDescriptor.defaultMarker,
-                  position: companyLocation,
-                )
-              },
-            ),
+            child: currentPosition == null
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : GoogleMap(
+                    initialCameraPosition: const CameraPosition(
+                      target: sliitGate,
+                      zoom: 12,
+                    ),
+                    markers: {
+                      Marker(
+                        markerId: const MarkerId('currentLocation'),
+                        icon: BitmapDescriptor.defaultMarker,
+                        position: currentPosition!,
+                      ),
+                      const Marker(
+                        markerId: MarkerId('sourceLocation'),
+                        icon: BitmapDescriptor.defaultMarker,
+                        position: sliitGate,
+                      ),
+                      const Marker(
+                        markerId: MarkerId('companyLocation'),
+                        icon: BitmapDescriptor.defaultMarker,
+                        position: companyLocation,
+                      )
+                    },
+                    polylines: Set<Polyline>.of(polylines.values),
+                  ),
           ),
           Container(
             height: double.infinity,

@@ -1,5 +1,6 @@
-import 'package:eco_wise/models/notification_model.dart';
 import 'package:flutter/material.dart';
+
+import 'package:eco_wise/models/notification_model.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
