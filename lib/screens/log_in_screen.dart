@@ -43,7 +43,7 @@ class LogInScreen extends ConsumerWidget {
             "password": _passwordController.text,
           }),
         );
-
+        print(response.statusCode);
         if (response.statusCode == 200) {
           // print(jsonDecode(response.body)['user']['_id']);
 
@@ -91,6 +91,7 @@ class LogInScreen extends ConsumerWidget {
                 title: 'Username',
                 height: 49,
                 width: 337,
+                isPw: false,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -100,6 +101,7 @@ class LogInScreen extends ConsumerWidget {
                     title: 'Password',
                     height: 49,
                     width: 337,
+                    isPw: true,
                   ),
                   TextButton(
                     onPressed: () {},

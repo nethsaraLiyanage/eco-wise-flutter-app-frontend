@@ -1,3 +1,4 @@
+import 'package:eco_wise/screens/success_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:location/location.dart';
@@ -25,7 +26,7 @@ class _ScheduleMapScreenState extends State<ScheduleMapScreen> {
     // post shedule data in the DeviceItem to backend
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => ErrorScreen(),
+        builder: (ctx) => SuccessScreen(),
       ),
     );
   }

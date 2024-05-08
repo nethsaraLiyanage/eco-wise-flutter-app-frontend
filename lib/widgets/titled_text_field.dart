@@ -5,6 +5,7 @@ class TitledTextField extends StatelessWidget {
   final String title;
   final double height;
   final double width;
+  final bool isPw;
 
   const TitledTextField({
     super.key,
@@ -12,6 +13,7 @@ class TitledTextField extends StatelessWidget {
     required this.title,
     required this.height,
     required this.width,
+    required this.isPw,
   });
 
   @override
@@ -41,6 +43,7 @@ class TitledTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           child: TextField(
+            obscureText: isPw,
             controller: localController,
             decoration: const InputDecoration(border: InputBorder.none),
           ),

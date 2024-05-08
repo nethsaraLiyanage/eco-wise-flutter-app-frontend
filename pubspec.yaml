@@ -48,6 +48,7 @@ dependencies:
   http: ^1.2.1
   flutter_polyline_points: ^2.0.0
   flutter_secure_storage: ^9.0.0
+  flutter_rating_bar: ^4.0.1
 
 flutter_native_splash:
   android: true
@@ -104,6 +105,9 @@ flutter:
     - assets/images/results_back.png
     - assets/images/error.png
     - assets/images/success.png
+    - assets/images/rate_success.png
+    - assets/images/rate_report.png
+    - assets/images/issue.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
