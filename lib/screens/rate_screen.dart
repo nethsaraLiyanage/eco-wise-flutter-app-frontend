@@ -1,19 +1,24 @@
-import 'package:eco_wise/screens/issue_screen.dart';
-import 'package:eco_wise/widgets/custom_elevated_button.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:eco_wise/config/config.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:eco_wise/screens/home_screen.dart';
+import 'package:eco_wise/screens/issue_screen.dart';
+import 'package:eco_wise/widgets/custom_elevated_button.dart';
+import 'package:eco_wise/providers/user_id_provider.dart';
 
-class RateScreen extends StatefulWidget {
+class RateScreen extends ConsumerStatefulWidget {
   const RateScreen({super.key});
 
   @override
-  State<RateScreen> createState() => _RateScreenState();
+  ConsumerState<RateScreen> createState() => _RateScreenState();
 }
 
-class _RateScreenState extends State<RateScreen> {
+class _RateScreenState extends ConsumerState<RateScreen> {
   var userRating = 0.0;
   final userComment = TextEditingController();
 
@@ -33,7 +38,53 @@ class _RateScreenState extends State<RateScreen> {
     );
   }
 
-  void _onPublishFeedback() {}
+  void _onPublishFeedback() async {
+    final id = ref.watch(userIdProvider);
+    // print(id);
+    if (userComment.text.isNotEmpty) {
+      final response = await http.post(
+        Uri.parse('${apiUrl}feedback'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(
+          <String, String>{
+            "content": userComment.text,
+            "userId": id,
+            "feedbackAmount": userRating.toString(),
+          },
+        ),
+      );
+
+      final msg = jsonDecode(response.body)['message'];
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(msg),
+          ),
+        );
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (ctx) => HomeScreen(),
+            ),
+            (route) => false);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Something went wrong. Please try again'),
+          ),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter a comment'),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,12 +180,15 @@ class _RateScreenState extends State<RateScreen> {
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(),
                     ),
-                    child: TextField(
-                      controller: userComment,
-                      maxLines: 2,
-                      decoration: const InputDecoration(
-                        labelText: 'Say something here...',
-                        border: InputBorder.none,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: TextField(
+                        controller: userComment,
+                        maxLines: 2,
+                        decoration: const InputDecoration(
+                          labelText: 'Say something here...',
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
                   )

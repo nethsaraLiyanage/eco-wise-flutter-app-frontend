@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-import 'package:eco_wise/providers/user_id_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:http/http.dart' as http;
 
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
@@ -12,6 +10,7 @@ import 'package:eco_wise/widgets/titled_text_field.dart';
 import 'package:eco_wise/screens/welcome_screen.dart';
 import 'package:eco_wise/screens/sign_up_screen.dart';
 import 'package:eco_wise/config/config.dart';
+import 'package:eco_wise/providers/user_id_provider.dart';
 
 class LogInScreen extends ConsumerWidget {
   final _usernameController = TextEditingController();
@@ -52,6 +51,8 @@ class LogInScreen extends ConsumerWidget {
           ref.read(userIdProvider.notifier).setUserId(userId);
 
           // await storage.write(key: "userId", value: userId);
+          final id = ref.watch(userIdProvider);
+          print(id);
 
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
