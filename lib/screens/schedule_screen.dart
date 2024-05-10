@@ -8,18 +8,24 @@ class ScheduleScreen extends StatelessWidget {
     super.key,
     required this.yourSelectedLoc,
     required this.dropSelectedLoc,
+    required this.item,
+    required this.qty,
   });
 
   final String yourSelectedLoc;
   final String dropSelectedLoc;
-
-  final yourScheduleLocation = TextEditingController();
-  final dropScheduleLocation = TextEditingController();
+  final String item;
+  final String qty;
 
   void _onNext(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (ctx) => ScheduleMapScreen(),
+          builder: (ctx) => ScheduleMapScreen(
+            item: item,
+            qty: qty,
+            yourLoc: yourSelectedLoc,
+            dropLoc: dropSelectedLoc,
+          ),
         ),
         (route) => false);
   }

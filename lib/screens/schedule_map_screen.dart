@@ -1,21 +1,38 @@
-import 'package:eco_wise/screens/success_screen.dart';
+import 'dart:convert';
+
+import 'package:eco_wise/config/config.dart';
 import 'package:flutter/material.dart';
 
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:eco_wise/screens/error_screen.dart';
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
 import 'package:eco_wise/screens/recycle_map_screen.dart';
+import 'package:eco_wise/screens/success_screen.dart';
+import 'package:eco_wise/providers/user_id_provider.dart';
 
-class ScheduleMapScreen extends StatefulWidget {
-  const ScheduleMapScreen({super.key});
+class ScheduleMapScreen extends ConsumerStatefulWidget {
+  const ScheduleMapScreen({
+    super.key,
+    required this.item,
+    required this.qty,
+    required this.yourLoc,
+    required this.dropLoc,
+  });
+
+  final String item;
+  final String qty;
+  final String yourLoc;
+  final String dropLoc;
 
   @override
-  State<ScheduleMapScreen> createState() => _ScheduleMapScreenState();
+  ConsumerState<ScheduleMapScreen> createState() => _ScheduleMapScreenState();
 }
 
-class _ScheduleMapScreenState extends State<ScheduleMapScreen> {
+class _ScheduleMapScreenState extends ConsumerState<ScheduleMapScreen> {
   final locationController = Location();
   static const sliitGate = LatLng(6.9142761, 79.9722236);
   static const companyLocation = LatLng(6.8831607, 79.8685644);
@@ -24,20 +41,58 @@ class _ScheduleMapScreenState extends State<ScheduleMapScreen> {
 
   LatLng? currentPosition;
 
-  void _onShcedule() {
-    // post shedule data in the DeviceItem to backend
+  void _onShcedule() async {
+    final id = ref.watch(userIdProvider);
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) => SuccessScreen(),
+    final response = await http.post(
+      Uri.parse('${apiUrl}items'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(
+        <String, String>{
+          "name": widget.item,
+          "description": 'Selected time: $selectedTime',
+          "price": "150",
+          "userId": id,
+          "title": widget.item,
+          "points": "10",
+          "qty": widget.qty,
+          "date": selectedDate.toString(),
+          "pickupLocation": widget.yourLoc,
+          "dropLocation": widget.dropLoc,
+        },
       ),
     );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(jsonDecode(response.body)['message']),
+        ),
+      );
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (ctx) => SuccessScreen(),
+          ),
+          (route) => false);
+    } else {
+      print(response.statusCode);
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => ErrorScreen(),
+        ),
+      );
+    }
   }
 
   void _onBack() {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (ctx) => RecycleMapScreen(),
+          builder: (ctx) => RecycleMapScreen(
+            item: widget.item,
+            qty: widget.qty,
+          ),
         ),
         (route) => false);
   }

@@ -19,7 +19,10 @@ class _ScanScreenState extends State<ScanScreen> {
   void _onRecycle() {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (ctx) => RecycleMapScreen(),
+          builder: (ctx) => const RecycleMapScreen(
+            item: 'Mobile',
+            qty: '1',
+          ),
         ),
         (route) => false);
   }

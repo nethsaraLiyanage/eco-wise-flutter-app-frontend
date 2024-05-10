@@ -54,7 +54,10 @@ class _PickupScreenState extends State<PickupScreen> {
         quantityController.text.isNotEmpty) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (ctx) => RecycleMapScreen(),
+            builder: (ctx) => RecycleMapScreen(
+              item: dropDownValue,
+              qty: quantityController.text,
+            ),
           ),
           (route) => false);
     } else {

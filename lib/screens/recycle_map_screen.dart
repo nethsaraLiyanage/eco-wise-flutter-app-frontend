@@ -12,7 +12,14 @@ import 'package:eco_wise/screens/navigate_map_screen.dart';
 import 'package:eco_wise/config/config.dart';
 
 class RecycleMapScreen extends StatefulWidget {
-  const RecycleMapScreen({super.key});
+  const RecycleMapScreen({
+    super.key,
+    required this.item,
+    required this.qty,
+  });
+
+  final String item;
+  final String qty;
 
   @override
   State<RecycleMapScreen> createState() => _RecycleMapScreenState();
@@ -58,6 +65,8 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
           builder: (ctx) => ScheduleScreen(
             yourSelectedLoc: yourLocation.text,
             dropSelectedLoc: dropLocation.text,
+            item: widget.item,
+            qty: widget.qty,
           ),
         ),
       );
