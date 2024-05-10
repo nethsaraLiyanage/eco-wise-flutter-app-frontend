@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:location/location.dart';
@@ -23,6 +25,7 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
   final locationController = Location();
   static const sliitGate = LatLng(6.9142761, 79.9722236);
   static const companyLocation = LatLng(6.8831607, 79.8685644);
+  static const company2Location = LatLng(6.8911439, 79.9288831);
 
   LatLng? currentPosition;
   Map<PolylineId, Polyline> polylines = {};
@@ -43,11 +46,22 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
   }
 
   void _onLater() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) => ScheduleScreen(),
-      ),
-    );
+    if (dropLocation.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a drop location from the map'),
+        ),
+      );
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => ScheduleScreen(
+            yourSelectedLoc: yourLocation.text,
+            dropSelectedLoc: dropLocation.text,
+          ),
+        ),
+      );
+    }
   }
 
   void _onEditingComplete() {
@@ -98,20 +112,25 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
             currentLocation.latitude!,
             currentLocation.longitude!,
           );
+          //For physical device
+          // yourLocation.text =
+          //     '${currentPosition!.latitude.toString()}, ${currentPosition!.longitude.toString()}';
+
+          // For emulator
           yourLocation.text =
-              '${currentPosition!.latitude.toString()}, ${currentPosition!.longitude.toString()}';
+              '${sliitGate.latitude.toString()}, ${sliitGate.longitude.toString()}';
         });
       }
     });
   }
 
-  Future<List<LatLng>> fetchPolylinePoints() async {
+  Future<List<LatLng>> fetchPolylinePoints(LatLng tapLoc) async {
     final polylinePoints = PolylinePoints();
 
     final result = await polylinePoints.getRouteBetweenCoordinates(
       googleMapsApiKey,
       PointLatLng(sliitGate.latitude, sliitGate.longitude),
-      PointLatLng(companyLocation.latitude, companyLocation.longitude),
+      PointLatLng(tapLoc.latitude, tapLoc.longitude),
     );
 
     if (result.points.isNotEmpty) {
@@ -139,7 +158,13 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
 
   Future<void> initializeMap() async {
     await fetchLocationUpdates();
-    final coordinates = await fetchPolylinePoints();
+  }
+
+  void _onMarkerTap(LatLng tappedLoc) async {
+    setState(() {
+      dropLocation.text = '${tappedLoc.latitude}, ${tappedLoc.longitude}';
+    });
+    final coordinates = await fetchPolylinePoints(tappedLoc);
     generatePolyLineFromPoints(coordinates);
   }
 
@@ -170,24 +195,37 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
                       target: sliitGate,
                       zoom: 12,
                     ),
+                    onTap: (LatLng tappedLoc) {
+                      _onMarkerTap(tappedLoc);
+                    },
                     markers: {
                       Marker(
                         markerId: const MarkerId('currentLocation'),
-                        icon: BitmapDescriptor.defaultMarker,
+                        icon: BitmapDescriptor.defaultMarkerWithHue(
+                            BitmapDescriptor.hueCyan),
                         position: currentPosition!,
                       ),
-                      const Marker(
-                        markerId: MarkerId('sourceLocation'),
-                        icon: BitmapDescriptor.defaultMarker,
+                      Marker(
+                        markerId: MarkerId('SLIIT'),
+                        icon: BitmapDescriptor.defaultMarkerWithHue(
+                            BitmapDescriptor.hueGreen),
                         position: sliitGate,
                       ),
-                      const Marker(
+                      Marker(
                         markerId: MarkerId('companyLocation'),
-                        icon: BitmapDescriptor.defaultMarker,
+                        icon: BitmapDescriptor.defaultMarkerWithHue(
+                            BitmapDescriptor.hueGreen),
                         position: companyLocation,
+                      ),
+                      Marker(
+                        markerId: MarkerId('company2Location'),
+                        icon: BitmapDescriptor.defaultMarkerWithHue(
+                            BitmapDescriptor.hueGreen),
+                        position: company2Location,
                       )
                     },
                     polylines: Set<Polyline>.of(polylines.values),
+                    myLocationButtonEnabled: true,
                   ),
           ),
           Container(
@@ -329,6 +367,7 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
                                 decoration: const InputDecoration(
                                   labelText: "Your Location",
                                 ),
+                                readOnly: true,
                               ),
                             )
                           ],
@@ -357,7 +396,8 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
                                 decoration: const InputDecoration(
                                   labelText: "Select Your Collector",
                                 ),
-                                onEditingComplete: _onEditingComplete,
+                                // onEditingComplete: _onEditingComplete,
+                                readOnly: true,
                               ),
                             )
                           ],

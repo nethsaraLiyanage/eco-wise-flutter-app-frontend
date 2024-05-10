@@ -4,7 +4,14 @@ import 'package:eco_wise/screens/schedule_map_screen.dart';
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
 
 class ScheduleScreen extends StatelessWidget {
-  ScheduleScreen({super.key});
+  ScheduleScreen({
+    super.key,
+    required this.yourSelectedLoc,
+    required this.dropSelectedLoc,
+  });
+
+  final String yourSelectedLoc;
+  final String dropSelectedLoc;
 
   final yourScheduleLocation = TextEditingController();
   final dropScheduleLocation = TextEditingController();
@@ -54,12 +61,7 @@ class ScheduleScreen extends StatelessWidget {
                 ),
                 SizedBox(
                   width: size.width * 0.595,
-                  child: TextField(
-                    controller: yourScheduleLocation,
-                    decoration: const InputDecoration(
-                      labelText: "Your Location",
-                    ),
-                  ),
+                  child: Text(yourSelectedLoc),
                 )
               ],
             ),
@@ -82,12 +84,7 @@ class ScheduleScreen extends StatelessWidget {
                 ),
                 SizedBox(
                   width: size.width * 0.595,
-                  child: TextField(
-                    controller: dropScheduleLocation,
-                    decoration: const InputDecoration(
-                      labelText: "Select Your Collector",
-                    ),
-                  ),
+                  child: Text(dropSelectedLoc),
                 )
               ],
             ),

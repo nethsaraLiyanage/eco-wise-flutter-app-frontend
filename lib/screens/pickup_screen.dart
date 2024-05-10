@@ -172,6 +172,7 @@ class _PickupScreenState extends State<PickupScreen> {
                   ),
                   TextField(
                     controller: quantityController,
+                    keyboardType: TextInputType.numberWithOptions(),
                   ),
                 ],
               ),

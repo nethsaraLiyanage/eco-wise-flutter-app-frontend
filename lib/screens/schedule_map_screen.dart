@@ -19,11 +19,14 @@ class _ScheduleMapScreenState extends State<ScheduleMapScreen> {
   final locationController = Location();
   static const sliitGate = LatLng(6.9142761, 79.9722236);
   static const companyLocation = LatLng(6.8831607, 79.8685644);
+  TimeOfDay selectedTime = TimeOfDay.now();
+  DateTime selectedDate = DateTime.now();
 
   LatLng? currentPosition;
 
   void _onShcedule() {
     // post shedule data in the DeviceItem to backend
+
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => SuccessScreen(),
@@ -71,6 +74,35 @@ class _ScheduleMapScreenState extends State<ScheduleMapScreen> {
         });
       }
     });
+  }
+
+  void _onTime() async {
+    final TimeOfDay? time = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+      initialEntryMode: TimePickerEntryMode.dial,
+    );
+
+    if (time != null) {
+      setState(() {
+        selectedTime = time;
+      });
+    }
+  }
+
+  Future<void> _selectDate() async {
+    DateTime? _date = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2050),
+    );
+
+    if (_date != null) {
+      setState(() {
+        selectedDate = _date;
+      });
+    }
   }
 
   @override
@@ -161,66 +193,72 @@ class _ScheduleMapScreenState extends State<ScheduleMapScreen> {
                           color: Colors.grey[400],
                         ),
                   ),
-                  Container(
-                    height: size.height * 0.043,
-                    width: size.width * 0.768,
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 241, 238, 238),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          'Pickup Time',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: const Color.fromARGB(255, 16, 144, 5),
-                              ),
-                        ),
-                        Text(
-                          '02:00 PM',
-                          style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                        ),
-                      ],
+                  InkWell(
+                    onTap: _onTime,
+                    child: Container(
+                      height: size.height * 0.043,
+                      width: size.width * 0.768,
+                      decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 241, 238, 238),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            'Pickup Time',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: const Color.fromARGB(255, 16, 144, 5),
+                                ),
+                          ),
+                          Text(
+                            '${selectedTime.hour}:${selectedTime.minute}',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
-                    height: size.height * 0.043,
-                    width: size.width * 0.768,
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 241, 238, 238),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          'Date',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: const Color.fromARGB(255, 16, 144, 5),
-                              ),
-                        ),
-                        Text(
-                          'Thursday Jan 18, 2024',
-                          style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                        ),
-                      ],
+                  InkWell(
+                    onTap: _selectDate,
+                    child: Container(
+                      height: size.height * 0.043,
+                      width: size.width * 0.768,
+                      decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 241, 238, 238),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            'Date',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: const Color.fromARGB(255, 16, 144, 5),
+                                ),
+                          ),
+                          Text(
+                            '${selectedDate.month}/${selectedDate.day}/${selectedDate.year}',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   CustomElevatedButton(
