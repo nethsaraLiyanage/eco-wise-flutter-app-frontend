@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:eco_wise/models/tech_models.dart';
 import 'package:eco_wise/widgets/custom_appbar.dart';
@@ -10,6 +14,8 @@ import 'package:eco_wise/screens/pickup_screen.dart';
 import 'package:eco_wise/screens/profile_screen.dart';
 import 'package:eco_wise/screens/scan_screen.dart';
 import 'package:eco_wise/screens/notifications_screen.dart';
+import 'package:eco_wise/providers/user_id_provider.dart';
+import 'package:eco_wise/config/config.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -21,6 +27,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  var myNotifications = [];
 
   @override
   void initState() {
@@ -34,71 +41,94 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    var items = [
-      Tech(name: 'Mobile', icon: Image.asset('assets/images/phone.png')),
-      Tech(name: 'Laptop', icon: Image.asset('assets/images/laptop.png')),
-      Tech(name: 'TV', icon: Image.asset('assets/images/tv.png')),
-      Tech(name: 'Embedded', icon: Image.asset('assets/images/embedded.png')),
-    ];
+  var items = [
+    Tech(name: 'Mobile', icon: Image.asset('assets/images/phone.png')),
+    Tech(name: 'Laptop', icon: Image.asset('assets/images/laptop.png')),
+    Tech(name: 'TV', icon: Image.asset('assets/images/tv.png')),
+    Tech(name: 'Embedded', icon: Image.asset('assets/images/embedded.png')),
+  ];
 
-    var detailItems = [
-      'assets/images/home_news.png',
-      'assets/images/home_news.png',
-      'assets/images/home_news.png',
-    ];
+  var detailItems = [
+    'assets/images/home_news.png',
+    'assets/images/home_news.png',
+    'assets/images/home_news.png',
+  ];
 
-    final navigationItems = [
-      {
-        'icon': 'assets/images/home_icon.png',
-        'title': 'Home',
-      },
-      {
-        'icon': 'assets/images/scan_icon.png',
-        'title': 'Scan',
-      },
-      {'icon': 'assets/images/pickup_icon.png', 'title': 'Pickup'},
-      {
-        'icon': 'assets/images/profile_icon.png',
-        'title': 'Profile',
-      },
-    ];
+  final navigationItems = [
+    {
+      'icon': 'assets/images/home_icon.png',
+      'title': 'Home',
+    },
+    {
+      'icon': 'assets/images/scan_icon.png',
+      'title': 'Scan',
+    },
+    {'icon': 'assets/images/pickup_icon.png', 'title': 'Pickup'},
+    {
+      'icon': 'assets/images/profile_icon.png',
+      'title': 'Profile',
+    },
+  ];
 
-    void onNavigationBarTap(String title) {
-      if (title == 'Profile') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (ctx) => const ProfileScreen(),
-          ),
-        );
-      }
-      if (title == 'Pickup') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (ctx) => const PickupScreen(),
-          ),
-        );
-      }
-      if (title == 'Scan') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (ctx) => const ScanScreen(),
-          ),
-        );
-      }
-    }
-
-    void onNotifications() {
-      // getNotifications from the backend
+  void onNavigationBarTap(String title) {
+    if (title == 'Profile') {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (ctx) => NotificationsScreen(),
+          builder: (ctx) => const ProfileScreen(),
         ),
       );
     }
+    if (title == 'Pickup') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => const PickupScreen(),
+        ),
+      );
+    }
+    if (title == 'Scan') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => const ScanScreen(),
+        ),
+      );
+    }
+  }
 
+  void onNotifications() async {
+    // final id = ref.watch(userIdProvider);
+
+    // final response = await http.get(
+    //   Uri.parse('${apiUrl}notifications'),
+    //   headers: <String, String>{
+    //     'Content-Type': 'application/json',
+    //   },
+    // );
+    // print(response.statusCode);
+    // if (response.statusCode == 200) {
+    //   List notifications = jsonDecode(response.body)['notifications'];
+
+    //   myNotifications = [];
+    //   for (var i = 0; i < notifications.length; i++) {
+    //     if (notifications[i]['userId'] == id) {
+    //       myNotifications.add(notifications[i]);
+    //     }
+    //   }
+
+    //   for (var i = 0; i < myNotifications.length; i++) {
+    //     jsonEncode(myNotifications[i]['content']);
+    //   }
+    //   print(myNotifications[1]['content']);
+    // }
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => NotificationsScreen(),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: [

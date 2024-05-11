@@ -11,7 +11,7 @@ class InitUserTypeScreen extends StatelessWidget {
     void onRecycler() {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (ctx) => const InitMobileNumberScreen(),
+          builder: (ctx) => InitMobileNumberScreen(),
         ),
       );
     }

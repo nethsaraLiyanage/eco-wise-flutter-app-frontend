@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,8 @@ import 'package:eco_wise/widgets/mobile_number_field.dart';
 import 'package:eco_wise/screens/init_otp_screen.dart';
 
 class InitMobileNumberScreen extends StatelessWidget {
-  const InitMobileNumberScreen({super.key});
+  InitMobileNumberScreen({super.key});
+  final random = Random();
 
   @override
   Widget build(BuildContext context) {
@@ -25,46 +27,44 @@ class InitMobileNumberScreen extends StatelessWidget {
           ),
         );
       } else {
-        // final response = await http.post(
-        //   Uri.parse(''),
-        //   headers: <String, String>{
-        //     'Content-Type': 'application/json; charset=UTF-8',
-        //   },
-        //   body: jsonEncode(
-        //       <String, String>{'mobileNumber': numberController.text}),
-        // );
+        int r1 = random.nextInt(9);
+        int r2 = random.nextInt(9);
+        int r3 = random.nextInt(9);
+        int r4 = random.nextInt(9);
 
-        // if (response.statusCode == 400) {
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //     const SnackBar(
-        //       content: Text('Something went wrong! Please try again'),
-        //       duration: Duration(milliseconds: 500),
-        //     ),
-        //   );
-        // } else {
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //     const SnackBar(
-        //       content: Text('OTP Sent'),
-        //       duration: Duration(milliseconds: 500),
-        //     ),
-        //   );
+        final response = await http.post(
+          Uri.parse(
+              'https://app.notify.lk/api/v1/send?user_id=11730&api_key=x90sIZ90vLU23i0lm4pu&sender_id=NotifyDEMO&to=+94${numberController.text}&message= Your Eco-Wise OTP: $r1$r2$r3$r4'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+        );
 
-        //   Navigator.of(context).push(
-        //     MaterialPageRoute(
-        //       builder: (ctx) => InitOTPScreen(
-        //         mobileNumber: numberController.text,
-        //       ),
-        //     ),
-        //   );
-        // }
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('OTP Sent'),
+              duration: Duration(milliseconds: 500),
+            ),
+          );
+
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) => InitOTPScreen(
+                mobileNumber: numberController.text,
+                otp: '$r1$r2$r3$r4',
+              ),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Something went wrong! Please try again'),
+              duration: Duration(milliseconds: 500),
+            ),
+          );
+        }
       }
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (ctx) => InitOTPScreen(
-            mobileNumber: numberController.text,
-          ),
-        ),
-      );
     }
 
     return Scaffold(

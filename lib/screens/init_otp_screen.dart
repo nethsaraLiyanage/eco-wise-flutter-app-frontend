@@ -14,10 +14,12 @@ class InitOTPScreen extends StatelessWidget {
   final num_3 = TextEditingController();
   final num_4 = TextEditingController();
   final String mobileNumber;
+  final String otp;
 
   InitOTPScreen({
     super.key,
     required this.mobileNumber,
+    required this.otp,
   });
 
   void _onTryAgain() async {
@@ -35,13 +37,20 @@ class InitOTPScreen extends StatelessWidget {
 
   void _onNext(BuildContext context) {
     // send user typed number
-    var otp = num_1.text + num_2.text + num_3.text + num_4.text;
-    if (otp.isNotEmpty) {
+    var enteredOtp = num_1.text + num_2.text + num_3.text + num_4.text;
+    if (enteredOtp == otp) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (ctx) => LogInScreen(),
         ),
         (route) => false,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('OTP does not match! Try Again'),
+          duration: Duration(milliseconds: 500),
+        ),
       );
     }
   }

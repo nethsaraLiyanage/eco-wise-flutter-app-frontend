@@ -1,15 +1,30 @@
+import 'dart:convert';
+
+import 'package:eco_wise/config/config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:eco_wise/models/notification_model.dart';
+import 'package:eco_wise/providers/user_id_provider.dart';
 
-class NotificationsScreen extends StatefulWidget {
+class NotificationsScreen extends ConsumerStatefulWidget {
   const NotificationsScreen({super.key});
 
   @override
-  State<NotificationsScreen> createState() => _NotificationsScreenState();
+  ConsumerState<NotificationsScreen> createState() =>
+      _NotificationsScreenState();
 }
 
-class _NotificationsScreenState extends State<NotificationsScreen> {
+class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  var myNotifications = [];
+
   final notifications = [
     LocalNotification(
       title: 'Recycling Tip of the Week',
@@ -41,7 +56,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     ),
   ];
 
-  void _markAsRead(){
+  void _markAsRead() {
     // post to back end to update isRead status
   }
 
@@ -79,7 +94,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   height: 20,
                 ),
                 TextButton(
-                  onPressed:  _markAsRead,
+                  onPressed: _markAsRead,
                   child: Text(
                     'Mark as Read',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
