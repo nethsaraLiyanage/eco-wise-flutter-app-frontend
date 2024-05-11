@@ -2,7 +2,7 @@ class LocalNotification {
   final String title;
   final String time;
   final String content;
-  final bool isRead;
+  bool isRead;
 
   LocalNotification({
     required this.title,

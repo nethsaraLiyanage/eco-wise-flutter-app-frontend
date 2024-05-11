@@ -1,8 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-
-import 'package:http/http.dart' as http;
 
 import 'package:eco_wise/screens/log_in_screen.dart';
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
@@ -22,17 +18,9 @@ class InitOTPScreen extends StatelessWidget {
     required this.otp,
   });
 
-  void _onTryAgain() async {
+  void _onTryAgain(BuildContext context) async {
     // send same as previuos screen
-    final response = await http.post(
-      Uri.parse(''),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(
-        <String, String>{'mobileNumber': mobileNumber},
-      ),
-    );
+    Navigator.of(context).pop();
   }
 
   void _onNext(BuildContext context) {
@@ -138,7 +126,7 @@ class InitOTPScreen extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         alignment: Alignment.topLeft,
                       ),
-                      onPressed: _onTryAgain,
+                      onPressed: () => _onTryAgain(context),
                       child: Text(
                         'Try Again',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(

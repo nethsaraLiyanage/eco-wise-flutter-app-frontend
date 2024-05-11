@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:eco_wise/models/tech_models.dart';
@@ -95,35 +94,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   void onNotifications() async {
-    // final id = ref.watch(userIdProvider);
+    final id = ref.watch(userIdProvider);
 
-    // final response = await http.get(
-    //   Uri.parse('${apiUrl}notifications'),
-    //   headers: <String, String>{
-    //     'Content-Type': 'application/json',
-    //   },
-    // );
+    final response = await http.get(
+      Uri.parse('${apiUrl}notifications'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+    );
     // print(response.statusCode);
-    // if (response.statusCode == 200) {
-    //   List notifications = jsonDecode(response.body)['notifications'];
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      List notifications = jsonDecode(response.body)['notifications'];
 
-    //   myNotifications = [];
-    //   for (var i = 0; i < notifications.length; i++) {
-    //     if (notifications[i]['userId'] == id) {
-    //       myNotifications.add(notifications[i]);
-    //     }
-    //   }
-
-    //   for (var i = 0; i < myNotifications.length; i++) {
-    //     jsonEncode(myNotifications[i]['content']);
-    //   }
-    //   print(myNotifications[1]['content']);
-    // }
-    Navigator.of(context).push(
+      myNotifications = [];
+      for (var i = 0; i < notifications.length; i++) {
+        if (notifications[i]['userId'] == id) {
+          myNotifications.add(notifications[i]);
+        }
+      }
+      Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => NotificationsScreen(),
+        builder: (ctx) => NotificationsScreen(
+          myNotifications: myNotifications,
+        ),
       ),
     );
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Something wnet wrong. Try again'),
+          ),
+        );
+    }
+    
   }
 
   @override

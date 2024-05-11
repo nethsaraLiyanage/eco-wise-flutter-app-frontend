@@ -6,10 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:eco_wise/models/notification_model.dart';
-import 'package:eco_wise/providers/user_id_provider.dart';
 
 class NotificationsScreen extends ConsumerStatefulWidget {
-  const NotificationsScreen({super.key});
+  const NotificationsScreen({
+    super.key,
+    required this.myNotifications,
+  });
+
+  final List myNotifications;
 
   @override
   ConsumerState<NotificationsScreen> createState() =>
@@ -23,8 +27,13 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
     super.initState();
   }
 
+  // Set this true if backend notifications are used
+  final isBackkend = false;
+
+  // notifications from backend
   var myNotifications = [];
 
+  // local notifications (hard coded)
   final notifications = [
     LocalNotification(
       title: 'Recycling Tip of the Week',
@@ -57,12 +66,181 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
   ];
 
   void _markAsRead() {
-    // post to back end to update isRead status
+    if (isBackkend) {
+      setState(
+        () {
+          for (int i = 0; i < myNotifications.length; i++) {
+            var notificationId = myNotifications[i]['userId'];
+
+            http.put(
+              Uri.parse('${apiUrl}notifications/$notificationId/read'),
+              headers: <String, String>{
+                'Content-Type': 'application/json',
+              },
+              body: jsonEncode(
+                <String, String>{
+                  "isRead": "true",
+                },
+              ),
+            );
+          }
+        },
+      );
+    } else {
+      setState(() {
+        for (int i = 0; i < notifications.length; i++) {
+          notifications[i].isRead = true;
+        }
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
+    final Widget localNotificationWidget = Column(
+      children: notifications
+          .map(
+            (e) => Container(
+              margin: const EdgeInsets.only(bottom: 25),
+              padding: const EdgeInsets.all(12),
+              width: double.infinity,
+              height: size.height * 0.124,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 4,
+                  )
+                ],
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        e.title,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                      ),
+                      Text(
+                        e.time,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: const Color.fromARGB(255, 166, 166, 166),
+                            ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.78,
+                        child: Text(
+                          e.content,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
+                                  ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      if (!e.isRead)
+                        Container(
+                          width: 10,
+                          height: 10,
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color.fromARGB(255, 0, 86, 254)),
+                        )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          )
+          .toList(),
+    );
+    final Widget backendNotificationWidget = Column(
+      children: myNotifications
+          .map(
+            (e) => Container(
+              margin: const EdgeInsets.only(bottom: 25),
+              padding: const EdgeInsets.all(12),
+              width: double.infinity,
+              height: size.height * 0.124,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 4,
+                  )
+                ],
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        e['title'],
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                      ),
+                      Text(
+                        e['time'],
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: const Color.fromARGB(255, 166, 166, 166),
+                            ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.78,
+                        child: Text(
+                          e['content'],
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
+                                  ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      if (e['isRead'] != true)
+                        Container(
+                          width: 10,
+                          height: 10,
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color.fromARGB(255, 0, 86, 254)),
+                        )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          )
+          .toList(),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -110,88 +288,9 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                 SizedBox(
                   height: size.height * 0.7,
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: notifications
-                          .map(
-                            (e) => Container(
-                              margin: const EdgeInsets.only(bottom: 25),
-                              padding: const EdgeInsets.all(12),
-                              width: double.infinity,
-                              height: size.height * 0.124,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white,
-                                boxShadow: const [
-                                  BoxShadow(
-                                    blurRadius: 4,
-                                  )
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        e.title,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
-                                      ),
-                                      Text(
-                                        e.time,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15,
-                                              color: const Color.fromARGB(
-                                                  255, 166, 166, 166),
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.78,
-                                        child: Text(
-                                          e.content,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!
-                                              .copyWith(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12,
-                                              ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 16,
-                                      ),
-                                      if (!e.isRead)
-                                        Container(
-                                          width: 10,
-                                          height: 10,
-                                          decoration: const BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Color.fromARGB(
-                                                  255, 0, 86, 254)),
-                                        )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
+                    child: isBackkend
+                        ? backendNotificationWidget
+                        : localNotificationWidget,
                   ),
                 ),
                 Row(
