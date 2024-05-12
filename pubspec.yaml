@@ -109,6 +109,7 @@ flutter:
     - assets/images/rate_report.png
     - assets/images/issue.png
     - assets/images/focus.png
+    - assets/images/col_sch.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

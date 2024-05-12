@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
 import 'package:eco_wise/screens/init_mobile_number_screen.dart';
+import 'package:eco_wise/collector_screens/col_log_in_screen.dart';
 
 class InitUserTypeScreen extends StatelessWidget {
   const InitUserTypeScreen({super.key});
@@ -12,6 +13,14 @@ class InitUserTypeScreen extends StatelessWidget {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (ctx) => InitMobileNumberScreen(),
+        ),
+      );
+    }
+
+    void onCollector() {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => ColLogInScreen(),
         ),
       );
     }
@@ -46,7 +55,7 @@ class InitUserTypeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               CustomElevatedButton(
-                onButtonPressed: () {},
+                onButtonPressed: onCollector,
                 height: 56,
                 width: 141,
                 childWidget: Text(
