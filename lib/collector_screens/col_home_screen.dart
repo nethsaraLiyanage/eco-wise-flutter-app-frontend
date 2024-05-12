@@ -86,7 +86,7 @@ class _ColHomeScreenState extends ConsumerState<ColHomeScreen>
         ),
       );
     }
-    if (title == 'Scan') {
+    if (title == 'Schedule Time') {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (ctx) => const ColScheduleScreen(),

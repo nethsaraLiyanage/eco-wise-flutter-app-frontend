@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
-import 'package:eco_wise/collector_screens/total_collected_items_screen.dart'; 
+import 'package:eco_wise/collector_screens/total_collected_items_screen.dart';  
+
 
 class ColProfileScreen extends StatelessWidget {
   const ColProfileScreen({super.key});
