@@ -1,16 +1,8 @@
-import 'package:eco_wise/screens/rate_screen.dart';
+import 'package:eco_wise/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class SuccessScreen extends StatelessWidget {
   const SuccessScreen({super.key});
-
-  void _onTap(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (ctx) => RateScreen(),
-        ),
-        (route) => false);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +13,13 @@ class SuccessScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             InkWell(
-              onTap: () => _onTap(context),
+              onTap: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (ctx) => HomeScreen(),
+                    ),
+                    (route) => false);
+              },
               child: Image.asset('assets/images/success.png'),
             ),
             const SizedBox(

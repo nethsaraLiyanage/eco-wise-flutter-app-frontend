@@ -17,6 +17,10 @@ class InitMobileNumberScreen extends StatelessWidget {
     final numberController = TextEditingController();
 
     void sendOTP(TextEditingController numberController) async {
+      int r1 = random.nextInt(9);
+      int r2 = random.nextInt(9);
+      int r3 = random.nextInt(9);
+      int r4 = random.nextInt(9);
       if (numberController.text.length > 9 ||
           numberController.text.length < 9 ||
           numberController.text.isEmpty) {
@@ -26,11 +30,6 @@ class InitMobileNumberScreen extends StatelessWidget {
           ),
         );
       } else {
-        int r1 = random.nextInt(9);
-        int r2 = random.nextInt(9);
-        int r3 = random.nextInt(9);
-        int r4 = random.nextInt(9);
-
         final response = await http.post(
           Uri.parse(
               'https://app.notify.lk/api/v1/send?user_id=11730&api_key=x90sIZ90vLU23i0lm4pu&sender_id=NotifyDEMO&to=+94${numberController.text}&message= Your Eco-Wise OTP: $r1$r2$r3$r4'),
@@ -64,6 +63,15 @@ class InitMobileNumberScreen extends StatelessWidget {
           );
         }
       }
+      // print('$r1$r2$r3$r4');
+      // Navigator.of(context).push(
+      //   MaterialPageRoute(
+      //     builder: (ctx) => InitOTPScreen(
+      //       mobileNumber: numberController.text,
+      //       otp: '$r1$r2$r3$r4',
+      //     ),
+      //   ),
+      // );
     }
 
     return Scaffold(
