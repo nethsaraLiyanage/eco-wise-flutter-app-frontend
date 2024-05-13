@@ -1,3 +1,4 @@
+import 'package:eco_wise/collector_screens/col_single_pickup_screen.dart';
 import 'package:eco_wise/models/pickUp_model.dart';
 import 'package:flutter/material.dart';
 
@@ -148,6 +149,18 @@ class _ColPickUpScreenState extends State<ColPickUpScreen> {
                       ],
                     ),
                     isThreeLine: true,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) => ColSinglePickUpScreen(
+                            name: e.name,
+                            category: e.category,
+                            qty: e.quantity,
+                            isScheduled: false,
+                          ),
+                        ),
+                      );
+                    },
                   ))
               .toList()
         ],

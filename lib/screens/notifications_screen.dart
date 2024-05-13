@@ -274,7 +274,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                 TextButton(
                   onPressed: _markAsRead,
                   child: Text(
-                    'Mark as Read',
+                    'Mark as All Read',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
