@@ -1,3 +1,4 @@
+import 'package:eco_wise/collector_screens/statics_page_one.dart';
 import 'package:flutter/material.dart';
 
 import 'package:eco_wise/widgets/custom_elevated_button.dart';
@@ -11,6 +12,13 @@ class ColProfileScreen extends StatelessWidget {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (ctx) => TotalCollectedItems(),
+        ),
+      );
+    }
+    if (tappedOn == 'Statics') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => const StaticsPageOne(),
         ),
       );
     }
