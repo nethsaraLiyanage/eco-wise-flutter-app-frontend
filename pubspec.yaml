@@ -122,6 +122,11 @@ flutter:
     - assets/images/text.png
     - assets/images/call.png
     - assets/images/col_ok.png
+    - assets/images/flyer1.jpeg
+    - assets/images/flyer2.jpeg
+    - assets/images/flyer3.jpeg
+    - assets/images/flyer4.jpeg
+    - assets/images/flyer5.jpeg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
