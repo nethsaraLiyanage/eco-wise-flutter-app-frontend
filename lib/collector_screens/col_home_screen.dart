@@ -85,7 +85,9 @@ class _ColHomeScreenState extends ConsumerState<ColHomeScreen>
     if (title == 'Pickup') {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (ctx) => const ColPickUpScreen(),
+          builder: (ctx) => const ColPickUpScreen(
+            isMobile: false,
+          ),
         ),
       );
     }
@@ -196,13 +198,26 @@ class _ColHomeScreenState extends ConsumerState<ColHomeScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ...items.map(
-                      (e) => SizedBox(
-                        width: e.icon.width,
-                        child: Column(
-                          children: [
-                            e.icon,
-                            Text(e.name),
-                          ],
+                      (e) => InkWell(
+                        onTap: () {
+                          if (e.name == 'Mobile') {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ctx) => ColPickUpScreen(
+                                  isMobile: true,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: SizedBox(
+                          width: e.icon.width,
+                          child: Column(
+                            children: [
+                              e.icon,
+                              Text(e.name),
+                            ],
+                          ),
                         ),
                       ),
                     ),
