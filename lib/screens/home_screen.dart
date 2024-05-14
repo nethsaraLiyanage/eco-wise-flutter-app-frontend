@@ -83,7 +83,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     if (title == 'Pickup') {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (ctx) => const PickupScreen(),
+          builder: (ctx) => const PickupScreen(
+            isMobile: false,
+          ),
         ),
       );
     }
@@ -116,20 +118,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         }
       }
       Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) => NotificationsScreen(
-          myNotifications: myNotifications,
-        ),
-      ),
-    );
-    }else{
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Something wnet wrong. Try again'),
+        MaterialPageRoute(
+          builder: (ctx) => NotificationsScreen(
+            myNotifications: myNotifications,
           ),
-        );
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Something wnet wrong. Try again'),
+        ),
+      );
     }
-    
   }
 
   @override
@@ -192,13 +193,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ...items.map(
-                      (e) => SizedBox(
-                        width: e.icon.width,
-                        child: Column(
-                          children: [
-                            e.icon,
-                            Text(e.name),
-                          ],
+                      (e) => InkWell(
+                        onTap: () {
+                          if (e.name == 'Mobile') {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ctx) => PickupScreen(
+                                  isMobile: true,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: SizedBox(
+                          width: e.icon.width,
+                          child: Column(
+                            children: [
+                              e.icon,
+                              Text(e.name),
+                            ],
+                          ),
                         ),
                       ),
                     ),

@@ -3,7 +3,12 @@ import 'package:eco_wise/models/pickUp_model.dart';
 import 'package:flutter/material.dart';
 
 class ColPickUpScreen extends StatefulWidget {
-  const ColPickUpScreen({super.key});
+  const ColPickUpScreen({
+    super.key,
+    required this.isMobile,
+  });
+
+  final bool isMobile;
 
   @override
   State<ColPickUpScreen> createState() => _ColPickUpScreenState();
@@ -13,7 +18,7 @@ class _ColPickUpScreenState extends State<ColPickUpScreen> {
   final _pickUps = [
     PickUp(
       name: 'Oshada Nanayakkara',
-      category: 'Laptop Deive',
+      category: 'Mobile Phone',
       quantity: 1,
       isSchedule: false,
     ),
@@ -37,7 +42,7 @@ class _ColPickUpScreenState extends State<ColPickUpScreen> {
     ),
     PickUp(
       name: 'Sanuvi Sonnadara',
-      category: 'Washing Machine',
+      category: 'Mobile Phone',
       quantity: 1,
       isSchedule: false,
     ),
@@ -118,51 +123,99 @@ class _ColPickUpScreenState extends State<ColPickUpScreen> {
               )
             ],
           ),
-          ..._pickUps
-              .map((e) => ListTile(
-                    title: Text(
-                      'Name: ${e.name}',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+          if (widget.isMobile)
+            ..._pickUps
+                .where((element) => element.category == 'Mobile Phone')
+                .map((e) => ListTile(
+                      title: Text(
+                        'Name: ${e.name}',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Category: ${e.category}',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                    ),
                           ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Category: ${e.category}',
-                          style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                  ),
-                        ),
-                        Text(
-                          'Quantity: ${e.quantity}',
-                          style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                  ),
-                        ),
-                      ],
-                    ),
-                    isThreeLine: true,
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (ctx) => ColSinglePickUpScreen(
-                            name: e.name,
-                            category: e.category,
-                            qty: e.quantity,
-                            isScheduled: false,
+                          Text(
+                            'Quantity: ${e.quantity}',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                    ),
                           ),
-                        ),
-                      );
-                    },
-                  ))
-              .toList()
+                        ],
+                      ),
+                      isThreeLine: true,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (ctx) => ColSinglePickUpScreen(
+                              name: e.name,
+                              category: e.category,
+                              qty: e.quantity,
+                              isScheduled: false,
+                            ),
+                          ),
+                        );
+                      },
+                    ))
+                .toList(),
+          if (!widget.isMobile)
+            ..._pickUps
+                .map((e) => ListTile(
+                      title: Text(
+                        'Name: ${e.name}',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Category: ${e.category}',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                    ),
+                          ),
+                          Text(
+                            'Quantity: ${e.quantity}',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                    ),
+                          ),
+                        ],
+                      ),
+                      isThreeLine: true,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (ctx) => ColSinglePickUpScreen(
+                              name: e.name,
+                              category: e.category,
+                              qty: e.quantity,
+                              isScheduled: false,
+                            ),
+                          ),
+                        );
+                      },
+                    ))
+                .toList()
         ],
       ),
     );

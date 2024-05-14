@@ -6,8 +6,12 @@ import 'package:eco_wise/widgets/favourite_recycles.dart';
 import 'package:eco_wise/screens/recycle_map_screen.dart';
 
 class PickupScreen extends StatefulWidget {
-  const PickupScreen({super.key});
+  const PickupScreen({
+    super.key,
+    required this.isMobile,
+  });
 
+  final bool isMobile;
   @override
   State<PickupScreen> createState() => _PickupScreenState();
 }
@@ -50,8 +54,7 @@ class _PickupScreenState extends State<PickupScreen> {
   }
 
   void _onRecycle(BuildContext context) {
-    if (dropDownValue != 'Select Category' &&
-        quantityController.text.isNotEmpty) {
+    if (quantityController.text.isNotEmpty) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (ctx) => RecycleMapScreen(
@@ -114,7 +117,7 @@ class _PickupScreenState extends State<PickupScreen> {
                     color: const Color.fromARGB(255, 246, 246, 246),
                   ),
                   child: DropdownButton<String>(
-                    value: dropDownValue,
+                    value: widget.isMobile ? 'Mobile' : dropDownValue,
                     icon: const Icon(Icons.keyboard_arrow_down),
                     style: const TextStyle(
                         color: Color.fromARGB(255, 124, 124, 124)),

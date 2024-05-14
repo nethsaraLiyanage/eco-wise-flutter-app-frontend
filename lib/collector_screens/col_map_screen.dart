@@ -119,7 +119,9 @@ class _ColMapScreenState extends ConsumerState<ColMapScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).pop();
+          },
           child: const Icon(
             Icons.arrow_back_rounded,
           ),
