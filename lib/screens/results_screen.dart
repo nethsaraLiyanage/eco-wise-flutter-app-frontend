@@ -119,17 +119,21 @@ class _ResultsScreenState extends State<ResultsScreen> {
                           ),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    width: size.width * 0.895,
-                    height: size.height * 0.062,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: const Color.fromARGB(255, 237, 237, 237),
-                    ),
-                    child: Row(
-                      children: [],
-                    ),
+                  // Container(
+                  //   margin: const EdgeInsets.symmetric(horizontal: 16),
+                  //   width: size.width * 0.895,
+                  //   height: size.height * 0.062,
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(20),
+                  //     color: const Color.fromARGB(255, 237, 237, 237),
+                  //   ),
+                  //   child: Row(
+                  //     children: [],
+                  //   ),
+                  // ),
+                  InkWell(
+                    onTap: null,
+                    child: Image.asset('assets/images/lboard.png'),
                   ),
                   const SizedBox(
                     height: 50,
