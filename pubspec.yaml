@@ -126,6 +126,7 @@ flutter:
     - assets/images/flyer2.jpeg
     - assets/images/flyer3.jpeg
     - assets/images/flyer4.jpeg
+    - assets/images/lboard.png
     - assets/images/flyer5.jpeg
   #   - images/a_dot_ham.jpeg
 
