@@ -15,6 +15,13 @@ class ProfileScreen extends StatelessWidget {
         ),
       );
     }
+    if (tappedOn == 'Recycled Items') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => TotalItemsScreen(),
+        ),
+      );
+    }
   }
 
   @override

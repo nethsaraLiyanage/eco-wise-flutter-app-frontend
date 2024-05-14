@@ -1,3 +1,4 @@
+import 'package:eco_wise/collector_screens/col_map_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:eco_wise/models/pickUp_model.dart';
@@ -162,6 +163,15 @@ class _ColScheduleScreenState extends State<ColScheduleScreen> {
                       ],
                     ),
                     isThreeLine: true,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) => ColMapScreen(
+                            name: e.name,
+                          ),
+                        ),
+                      );
+                    },
                   ))
               .toList()
         ],

@@ -117,6 +117,11 @@ flutter:
     - assets/images/statimg05.png
     - assets/images/statimg06.png
     - assets/images/statimg07.png
+    - assets/images/pin.png
+    - assets/images/man.png
+    - assets/images/text.png
+    - assets/images/call.png
+    - assets/images/col_ok.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
