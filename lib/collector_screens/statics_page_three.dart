@@ -18,7 +18,7 @@ class _StaticsPageThreeState extends State<StaticsPageThree> {
             width: double.infinity,
             height: double.infinity,
             child: Image.asset(
-              'assets/images/statimg06.png',
+              'assets/images/statimg07.png',
               fit: BoxFit.fill,
             ),
           ),

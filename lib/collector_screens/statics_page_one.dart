@@ -61,7 +61,7 @@ class _StaticsPageOneState extends State<StaticsPageOne> {
                       Column(
                         children: [
                           InkWell(
-                            onTap: _onTap('Two', context),
+                            onTap:() => {_onTap('Two', context)},
                             child: Image.asset('assets/images/statimg02.png'),
                           ),
                         ],
@@ -76,7 +76,7 @@ class _StaticsPageOneState extends State<StaticsPageOne> {
                       Column(
                         children: [
                           InkWell(
-                            onTap: _onTap('Three', context),
+                            onTap:() => {_onTap('Three', context)},
                             child: Image.asset('assets/images/statimg03.png'),
                           ),
                         ],
