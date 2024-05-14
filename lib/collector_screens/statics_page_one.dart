@@ -14,14 +14,14 @@ class _StaticsPageOneState extends State<StaticsPageOne> {
     if (tappedOn == 'Two') {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (ctx) => const StaticsPageTwo(),
+          builder: (ctx) => const StaticsPageThree(),
         ),
       );
     }
     if (tappedOn == 'Three') {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (ctx) => const StaticsPageThree(),
+          builder: (ctx) => const StaticsPageTwo(),
         ),
       );
     }
@@ -53,7 +53,7 @@ class _StaticsPageOneState extends State<StaticsPageOne> {
               child: Image.asset('assets/images/statimg01.png'),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 60, right: 50, top:80),
+              padding: const EdgeInsets.only(left: 40, right: 40, top:80),
               child: Column(
                 children: [
                   Row(
@@ -69,7 +69,7 @@ class _StaticsPageOneState extends State<StaticsPageOne> {
                       const Column(
                         children: [
                           SizedBox(
-                            width: 30,
+                            width: 20,
                           )
                         ],
                       ),
@@ -88,7 +88,7 @@ class _StaticsPageOneState extends State<StaticsPageOne> {
                       Column(
                         children: [
                           InkWell(
-                            onTap: null,
+                            onTap:() => {_onTap('Two', context)},
                             child: Image.asset('assets/images/statimg04.png'),
                           ),
                         ],
