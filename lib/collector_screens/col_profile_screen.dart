@@ -12,7 +12,7 @@ class ColProfileScreen extends StatelessWidget {
     if (tappedOn == 'Total Collected Items') {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (ctx) => const StaticsPageTwo(),
+          builder: (ctx) => TotalCollectedItems(),
         ),
       );
     }

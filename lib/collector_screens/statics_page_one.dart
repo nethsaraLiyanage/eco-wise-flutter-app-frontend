@@ -53,7 +53,7 @@ class _StaticsPageOneState extends State<StaticsPageOne> {
               child: Image.asset('assets/images/statimg01.png'),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 40, right: 40, top:80),
+              padding: const EdgeInsets.only(left: 20, right: 20, top:80),
               child: Column(
                 children: [
                   Row(
@@ -61,7 +61,7 @@ class _StaticsPageOneState extends State<StaticsPageOne> {
                       Column(
                         children: [
                           InkWell(
-                            onTap:() => {_onTap('Two', context)},
+                            onTap:() => {_onTap('Three', context)},
                             child: Image.asset('assets/images/statimg02.png'),
                           ),
                         ],
@@ -69,7 +69,7 @@ class _StaticsPageOneState extends State<StaticsPageOne> {
                       const Column(
                         children: [
                           SizedBox(
-                            width: 20,
+                            width:10,
                           )
                         ],
                       ),
@@ -96,7 +96,7 @@ class _StaticsPageOneState extends State<StaticsPageOne> {
                       const Column(
                         children: [
                           SizedBox(
-                            width: 30,
+                            width:10,
                           )
                         ],
                       ),
