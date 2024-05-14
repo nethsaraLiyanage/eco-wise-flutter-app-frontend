@@ -48,8 +48,11 @@ class _ColHomeScreenState extends ConsumerState<ColHomeScreen>
 
   var detailItems = [
     'assets/images/home_news.png',
-    'assets/images/home_news.png',
-    'assets/images/home_news.png',
+    'assets/images/flyer1.jpeg',
+    'assets/images/flyer2.jpeg',
+    'assets/images/flyer3.jpeg',
+    'assets/images/flyer4.jpeg',
+    'assets/images/flyer5.jpeg',
   ];
 
   final navigationItems = [

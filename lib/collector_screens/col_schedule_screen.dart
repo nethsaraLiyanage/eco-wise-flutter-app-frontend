@@ -153,7 +153,7 @@ class _ColScheduleScreenState extends State<ColScheduleScreen> {
                                   ),
                         ),
                         Text(
-                          'Quantity: ${e.time?.hour}:${e.time?.minute}',
+                          'Time: ${e.time?.hour}:${e.time?.minute}',
                           style:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     fontWeight: FontWeight.w400,
